@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>البراء — المستشارون القانونيون الدوليون</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,800;1,400;1,600&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS — ULTRA LUXURY SOVEREIGN PALETTE
+═══════════════════════════════════════════════════ */
+:root {
+  --navy:        #04193A;
+  --navy-dark:   #02101F;
+  --navy-deep:   #010C17;
+  --navy-mid:    #062244;
+  --gold:        #C9A24A;
+  --gold-light:  #E2C97E;
+  --gold-pale:   #F0E3BC;
+  --gold-dim:    rgba(201,162,74,0.25);
+  --gold-faint:  rgba(201,162,74,0.08);
+  --white:       #F5F3EE;
+  --white-dim:   rgba(245,243,238,0.55);
+  --white-faint: rgba(245,243,238,0.12);
+  --shadow-gold: 0 0 80px rgba(201,162,74,0.08);
+  --r: 0; --g: 0; /* cursor */
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--navy-deep);
+  color: var(--white);
+  font-family: 'Amiri', serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+::selection { background: var(--gold); color: var(--navy-deep); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--navy-deep); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ═══════════════════════════════════════════════════
+   LUXURY CURSOR
+═══════════════════════════════════════════════════ */
+#cursor-dot {
+  position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+  background: var(--gold); border-radius: 50%; pointer-events: none;
+  z-index: 99999; transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: normal;
+}
+#cursor-ring {
+  position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+  border: 1px solid var(--gold-dim); border-radius: 50%; pointer-events: none;
+  z-index: 99998; transform: translate(-50%,-50%);
+  transition: width 0.5s cubic-bezier(.16,1,.3,1), height 0.5s cubic-bezier(.16,1,.3,1),
+              border-color 0.4s, transform 0.08s linear;
+}
+body.hovering #cursor-dot { width: 10px; height: 10px; background: var(--gold-light); }
+body.hovering #cursor-ring { width: 56px; height: 56px; border-color: rgba(201,162,74,0.5); }
+
+/* ═══════════════════════════════════════════════════
+   GOLD PARTICLE CANVAS
+═══════════════════════════════════════════════════ */
+#gold-canvas {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55;
+}
+
+/* ═══════════════════════════════════════════════════
+   GRAIN OVERLAY
+═══════════════════════════════════════════════════ */
+#grain {
+  position: fixed; inset: -50%; width: 200%; height: 200%;
+  pointer-events: none; z-index: 1; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain-anim 0.5s steps(2) infinite;
+}
+@keyframes grain-anim {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-3%,-4%); }
+  50%  { transform: translate(2%,5%); }
+  75%  { transform: translate(-4%,2%); }
+  100% { transform: translate(3%,-2%); }
+}
+
+/* ═══════════════════════════════════════════════════
+   PRELOADER
+═══════════════════════════════════════════════════ */
+#preloader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--navy-deep); display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 1.2s ease, visibility 1.2s ease;
+}
+#preloader.done { opacity: 0; visibility: hidden; }
+.pre-inner { position: relative; padding: 5rem 6rem; text-align: center; }
+.pre-line-l, .pre-line-r {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+}
+.pre-line-l { left: 0; }
+.pre-line-r { right: 0; }
+.pre-since {
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.7em;
+  text-transform: uppercase; color: rgba(201,162,74,0.5); margin-bottom: 1.5rem;
+  animation: fadeUp 1.2s ease 0.4s both;
+}
+.pre-title {
+  font-family: 'Amiri', serif; font-style: italic; font-size: clamp(3rem,7vw,5.5rem);
+  letter-spacing: 0.3em; color: var(--white); line-height: 1;
+  animation: fadeUp 1.2s ease 0.7s both;
+}
+.pre-title span { color: var(--gold); }
+.pre-dots { margin-top: 2.5rem; display: flex; justify-content: center; gap: 8px; }
+.pre-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold-dim); animation: pulse 2s ease infinite;
+}
+.pre-dot:nth-child(2) { animation-delay: 0.3s; }
+.pre-dot:nth-child(3) { animation-delay: 0.6s; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+@keyframes pulse { 0%,100%{opacity:0;} 50%{opacity:1;} }
+
+/* ═══════════════════════════════════════════════════
+   SITE WRAPPER
+═══════════════════════════════════════════════════ */
+#site { opacity: 0; transition: opacity 2s ease; position: relative; z-index: 2; }
+#site.visible { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  padding: 0 5rem; height: 96px; display: flex; align-items: center;
+  justify-content: space-between;
+  transition: height 0.8s ease, background 0.8s ease, backdrop-filter 0.8s ease, border-bottom 0.8s ease;
+}
+nav.scrolled {
+  height: 68px; background: rgba(2,16,31,0.92);
+  backdrop-filter: blur(28px); border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.nav-logo { text-decoration: none; display: flex; flex-direction: column; }
+.nav-logo-ar { font-family: 'Amiri', serif; font-size: 1.85rem; letter-spacing: 0.25em; color: var(--gold); line-height: 1; }
+.nav-logo-en { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.55em; text-transform: uppercase; color: rgba(245,243,238,0.3); margin-top: 4px; }
+.nav-links { display: flex; gap: 2.8rem; align-items: center; }
+.nav-link {
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.35em;
+  text-transform: uppercase; color: rgba(245,243,238,0.45);
+  text-decoration: none; font-weight: 600; transition: color 0.4s;
+  position: relative;
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--gold); transform: scaleX(0);
+  transform-origin: right; transition: transform 0.5s cubic-bezier(.16,1,.3,1);
+}
+.nav-link:hover { color: var(--gold); }
+.nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.1); }
+.nav-lang {
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: rgba(201,162,74,0.55); background: none;
+  border: none; cursor: none; font-weight: 700; transition: color 0.3s;
+}
+.nav-lang:hover { color: var(--gold); }
+.nav-cta {
+  padding: 10px 26px; background: var(--gold-faint);
+  border: 1px solid var(--gold-dim); color: var(--gold);
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.35em;
+  text-transform: uppercase; font-weight: 700; text-decoration: none;
+  transition: all 0.6s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden;
+}
+.nav-cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gold); transform: scaleX(0);
+  transform-origin: left; transition: transform 0.6s cubic-bezier(.16,1,.3,1);
+  z-index: 0;
+}
+.nav-cta span { position: relative; z-index: 1; transition: color 0.5s; }
+.nav-cta:hover::before { transform: scaleX(1); }
+.nav-cta:hover span { color: var(--navy-deep); }
+.nav-hamburger {
+  display: none; background: none; border: none; color: var(--gold);
+  cursor: none; padding: 8px;
+}
+
+/* Mobile menu */
+#mobile-menu {
+  position: fixed; inset: 0; z-index: 950;
+  background: var(--navy-deep); display: flex; flex-direction: column;
+  padding: 3rem; opacity: 0; pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+#mobile-menu.open { opacity: 1; pointer-events: all; }
+.mobile-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem; }
+.mobile-nav-link {
+  font-family: 'Amiri', serif; font-style: italic; font-size: 2.8rem;
+  color: var(--white); text-decoration: none; display: block;
+  padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: color 0.3s;
+}
+.mobile-nav-link:hover { color: var(--gold); }
+.close-btn {
+  background: rgba(255,255,255,0.05); border: none; color: var(--gold);
+  cursor: none; padding: 12px; border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+.reveal-delay-4 { transition-delay: 0.6s; }
+.reveal-left {
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1);
+}
+.reveal-left.in { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════════════════
+   SECTION HEADING COMPONENT
+═══════════════════════════════════════════════════ */
+.section-heading { margin-bottom: 5rem; }
+.section-heading.centered { text-align: center; }
+.sh-label-row {
+  display: inline-flex; align-items: center; gap: 1.4rem;
+  margin-bottom: 1.75rem;
+}
+.centered .sh-label-row { display: flex; justify-content: center; }
+.sh-number { font-family:'Amiri',serif; font-style:italic; font-size:10px; letter-spacing:0.2em; color:rgba(201,162,74,0.45); }
+.sh-rule { width: 28px; height: 1px; background: var(--gold-dim); }
+.sh-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:0.6em; text-transform:uppercase; font-weight:700; color:var(--gold); }
+.sh-title {
+  font-family: 'Amiri', serif; font-style: italic; font-weight: 300;
+  font-size: clamp(2.2rem,4.5vw,4.2rem); line-height: 1.1;
+  letter-spacing: -0.015em; margin-bottom: 1.5rem;
+}
+.sh-title.dark { color: var(--navy-deep); }
+.sh-title.light { color: var(--white); }
+.sh-subtitle { font-style: italic; font-size: 1.1rem; color: var(--white-dim); font-weight: 300; line-height: 1.7; max-width: 38rem; }
+.centered .sh-subtitle { margin: 0 auto; }
+.sh-rule-bottom { width: 80px; height: 1px; background: var(--gold-dim); margin-top: 1.5rem; }
+.centered .sh-rule-bottom { margin: 1.5rem auto 0; }
+
+/* GOLD FOIL on headings */
+.gold-foil {
+  background: linear-gradient(135deg, #f0d98a 0%, var(--gold) 35%, #a06e1c 55%, var(--gold-light) 70%, #b8860b 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  background-size: 200% auto; animation: foil-shift 6s ease infinite;
+}
+@keyframes foil-shift { 0%,100%{background-position:0%} 50%{background-position:100%} }
+
+/* ═══════════════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════════════ */
+#hero {
+  position: relative; min-height: 100vh; display: flex;
+  flex-direction: column; justify-content: center; overflow: hidden;
+  background: radial-gradient(ellipse at 20% 60%, rgba(10,40,80,0.9) 0%, var(--navy-deep) 70%);
+}
+.hero-bg-img {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1800&auto=format&fit=crop');
+  background-size: cover; background-position: center;
+  filter: grayscale(1); opacity: 0.07;
+  transform: scale(1.05);
+  animation: slow-zoom 30s ease infinite alternate;
+}
+@keyframes slow-zoom { from{transform:scale(1.05)} to{transform:scale(1.12)} }
+.hero-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, var(--navy-deep) 0%, rgba(2,16,31,0.55) 50%, var(--navy-deep) 100%); }
+.hero-glow { position: absolute; top: 40%; left: 30%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,162,74,0.06) 0%, transparent 65%); pointer-events:none; z-index:1; animation: glow-pulse 8s ease infinite; }
+@keyframes glow-pulse { 0%,100%{opacity:0.7; transform:scale(1)} 50%{opacity:1; transform:scale(1.1)} }
+.hero-content {
+  max-width: 1500px; margin: 0 auto; padding: 0 5rem; width: 100%;
+  position: relative; z-index: 10; display: grid;
+  grid-template-columns: 3fr 1.2fr; gap: 4rem; align-items: center;
+  padding-top: 96px;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-bottom: 3.5rem; opacity: 0; transform: translateY(20px);
+  animation: fadeUp 1.5s ease 0.3s forwards;
+}
+.hero-eyebrow-line { width: 80px; height: 1px; background: var(--gold); }
+.hero-eyebrow-text { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.55em; text-transform:uppercase; font-weight:700; color:rgba(201,162,74,0.75); }
+.hero-h1 {
+  font-family: 'Amiri', serif; line-height: 0.88; margin-bottom: 3.5rem;
+  opacity: 0; animation: fadeUp 1.5s ease 0.6s forwards;
+}
+.hero-sub { font-size: clamp(2.8rem,5.5vw,4.8rem); display: block; font-weight: 300; font-style: italic; color: rgba(245,243,238,0.28); letter-spacing: 0.02em; margin-bottom: 0.5rem; }
+.hero-main { font-size: clamp(3.5rem,7vw,7rem); display: block; font-weight: 700; letter-spacing: -0.03em; }
+.hero-desc {
+  max-width: 34rem; font-size: 1.15rem; line-height: 1.75; color: rgba(245,243,238,0.4);
+  font-style: italic; font-weight: 300; margin-bottom: 4.5rem;
+  padding-inline-start: 2.5rem; border-inline-start: 1px solid rgba(255,255,255,0.06);
+  opacity: 0; animation: fadeUp 1.5s ease 1s forwards;
+}
+.hero-ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 1.5s ease 1.3s forwards; }
+.btn-primary {
+  padding: 1.3rem 3.2rem; background: var(--gold); color: var(--navy-deep);
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.4em; text-transform:uppercase;
+  font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:12px;
+  transition: all 0.7s cubic-bezier(.16,1,.3,1); position: relative; overflow:hidden;
+}
+.btn-primary::before {
+  content:''; position:absolute; inset:0; background:var(--white);
+  transform:scaleX(0); transform-origin:left; transition:transform 0.7s cubic-bezier(.16,1,.3,1); z-index:0;
+}
+.btn-primary:hover::before { transform:scaleX(1); }
+.btn-primary span { position:relative; z-index:1; }
+.btn-secondary {
+  padding: 1.3rem 3.2rem; border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(245,243,238,0.75); font-family:'Cinzel',serif; font-size:10px;
+  letter-spacing:0.4em; text-transform:uppercase; font-weight:700; text-decoration:none;
+  background: rgba(255,255,255,0.025); backdrop-filter:blur(12px);
+  transition: all 0.5s;
+}
+.btn-secondary:hover { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.2); color:var(--white); }
+.hero-stats { display:flex; flex-direction:column; gap:1.5rem; }
+.hero-stat {
+  padding: 2.2rem; background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  display:flex; align-items:flex-start; gap:1.25rem;
+  backdrop-filter:blur(12px); position:relative; overflow:hidden;
+  opacity:0;
+}
+.hero-stat::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background: linear-gradient(to right, transparent, var(--gold-dim), transparent); }
+.hero-stat.s1 { animation: fadeUp 1.5s ease 1.5s forwards; }
+.hero-stat.s2 { animation: fadeUp 1.5s ease 1.7s forwards; }
+.hero-stat-icon { color: rgba(201,162,74,0.4); margin-top: 3px; flex-shrink: 0; }
+.hero-stat-val { font-family:'Amiri',serif; font-size:1.9rem; color:var(--gold); font-style:italic; margin-bottom:0.4rem; line-height:1; }
+.hero-stat-lbl { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.4em; text-transform:uppercase; font-weight:700; color:rgba(245,243,238,0.25); }
+.hero-scroll {
+  position:absolute; bottom:3rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:1rem; opacity:0.35;
+  animation: fadeUp 2s ease 2s forwards;
+}
+.hero-scroll-text { font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.7em; text-transform:uppercase; color:var(--white); font-weight:700; }
+.hero-scroll-line { width:1px; height:52px; background:linear-gradient(to bottom, var(--gold), transparent); animation:scroll-pulse 2.5s ease infinite; }
+@keyframes scroll-pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+/* ═══════════════════════════════════════════════════
+   ABOUT SECTION
+═══════════════════════════════════════════════════ */
+#about {
+  padding: 10rem 0; background: var(--navy);
+  position:relative; overflow:hidden;
+}
+#about::before {
+  content:''; position:absolute; top:0; right:0; width:40%; height:100%;
+  background:rgba(255,255,255,0.012); transform:skewX(-12deg) translateX(60%); pointer-events:none;
+}
+.about-inner { max-width:1500px; margin:0 auto; padding:0 5rem; display:grid; grid-template-columns:1fr 1.1fr; gap:7rem; align-items:center; position:relative; z-index:2; }
+.about-img-wrap { position:relative; }
+.about-img-frame { position:relative; overflow:hidden; border:1px solid rgba(255,255,255,0.05); }
+.about-img {
+  width:100%; aspect-ratio:4/5; object-fit:cover;
+  filter: grayscale(1) brightness(0.45);
+  transition: filter 2.5s ease, transform 2.5s ease; display:block;
+}
+.about-img-frame:hover .about-img { filter:grayscale(0) brightness(1); transform:scale(1.04); }
+.about-img-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(4,25,58,0.92) 0%, transparent 55%); pointer-events:none; }
+.about-badge {
+  position:absolute; bottom:-3.5rem; right:-3.5rem; width:290px;
+  background: rgba(4,12,28,0.97); padding:3.5rem; border:1px solid rgba(201,162,74,0.18);
+  backdrop-filter:blur(20px);
+}
+.about-badge-label { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.45em; text-transform:uppercase; font-weight:700; color:var(--gold); margin-bottom:1.25rem; display:block; }
+.about-badge-quote { font-family:'Amiri',serif; font-size:1.4rem; font-style:italic; color:var(--white); line-height:1.35; margin-bottom:1.75rem; }
+.about-badge-rule { width:64px; height:1px; background:rgba(201,162,74,0.35); }
+.about-text { padding-inline-start:2rem; }
+.about-blockquote {
+  border-inline-start:3px solid var(--gold); padding-inline-start:2.5rem;
+  margin-bottom:2.5rem; font-style:italic; font-size:1.2rem; color:rgba(245,243,238,0.82); line-height:1.8;
+}
+.about-para { padding-inline-start:2.5rem; color:rgba(245,243,238,0.45); font-style:italic; line-height:1.85; font-size:1.05rem; margin-bottom:3.5rem; }
+.about-metrics { padding-inline-start:2.5rem; display:flex; align-items:center; gap:3rem; }
+.about-metric-num { font-family:'Amiri',serif; font-size:2.8rem; font-style:italic; color:var(--white); line-height:1; }
+.about-metric-lbl { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; font-weight:700; color:var(--gold); margin-top:0.4rem; }
+.about-metric-divider { width:1px; height:52px; background:rgba(255,255,255,0.08); }
+
+/* ═══════════════════════════════════════════════════
+   PRACTICES SECTION
+═══════════════════════════════════════════════════ */
+#practice {
+  padding: 10rem 0; position:relative; overflow:hidden;
+  background: var(--navy-deep);
+}
+.practice-bg {
+  position:absolute; inset:0; opacity:0.035;
+  background-image:url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1400&auto=format&fit=crop');
+  background-size:cover; background-position:center; filter:grayscale(1);
+}
+.practice-bg-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, var(--navy-deep), rgba(2,16,31,0.85), var(--navy-deep)); }
+.practice-inner { max-width:1500px; margin:0 auto; padding:0 5rem; position:relative; z-index:2; }
+.practice-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border:1px solid rgba(255,255,255,0.05); gap:0;
+}
+.practice-card {
+  padding:4.5rem; background:var(--navy-deep); border:1px solid rgba(255,255,255,0.04);
+  transition: background 0.8s; position:relative; overflow:hidden; cursor:default;
+}
+.practice-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0); transition: transform 0.7s cubic-bezier(.16,1,.3,1);
+}
+.practice-card:hover::before { transform:scaleX(1); }
+.practice-card:hover { background: rgba(255,255,255,0.03); }
+.practice-num { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:rgba(201,162,74,0.3); margin-bottom:2.5rem; display:block; font-weight:700; }
+.practice-icon { color:var(--gold); margin-bottom:2.5rem; opacity:0.65; transition:opacity 0.5s, transform 0.5s; transform-origin:left; }
+.practice-card:hover .practice-icon { opacity:1; transform:scale(1.1); }
+.practice-title { font-family:'Amiri',serif; font-style:italic; font-size:1.5rem; color:var(--white); margin-bottom:1.5rem; line-height:1.3; transition:color 0.5s; }
+.practice-card:hover .practice-title { color:var(--gold); }
+.practice-desc { color:rgba(245,243,238,0.38); font-style:italic; line-height:1.75; font-size:0.95rem; margin-bottom:2.5rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.practice-caps { border-top:1px solid rgba(255,255,255,0.05); padding-top:1.75rem; display:flex; flex-direction:column; gap:0.8rem; }
+.practice-cap { display:flex; align-items:center; gap:1rem; }
+.practice-cap-dot { width:4px; height:4px; border-radius:50%; background:var(--gold-dim); flex-shrink:0; transition:background 0.3s; }
+.practice-card:hover .practice-cap-dot { background:var(--gold); }
+.practice-cap-text { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:0.2em; text-transform:uppercase; font-weight:700; color:rgba(245,243,238,0.28); transition:color 0.3s; }
+.practice-card:hover .practice-cap-text { color:rgba(245,243,238,0.65); }
+
+/* ═══════════════════════════════════════════════════
+   PHILOSOPHY / WHY US
+═══════════════════════════════════════════════════ */
+#why-us { padding:10rem 0; background:var(--navy); position:relative; overflow:hidden; }
+.why-inner { max-width:1500px; margin:0 auto; padding:0 5rem; display:grid; grid-template-columns:1fr 2fr; gap:7rem; align-items:center; position:relative; z-index:2; }
+.why-grid { display:grid; grid-template-columns:1fr 1fr; border:1px solid rgba(255,255,255,0.05); }
+.why-card {
+  padding:4.5rem; background:rgba(255,255,255,0.012); border:1px solid rgba(255,255,255,0.04);
+  transition: all 0.6s; cursor:default;
+}
+.why-card:hover { background:rgba(255,255,255,0.035); transform:translateY(-4px); }
+.why-card-title { font-family:'Amiri',serif; font-size:1.35rem; color:var(--gold); font-style:italic; margin-bottom:1.25rem; }
+.why-card-desc { color:rgba(245,243,238,0.45); font-style:italic; line-height:1.75; font-size:1rem; }
+
+/* ═══════════════════════════════════════════════════
+   LAWYERS SECTION
+═══════════════════════════════════════════════════ */
+#lawyers {
+  padding:10rem 0; background:#0e1f35; position:relative; overflow:hidden;
+}
+#lawyers::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(to right, transparent, rgba(201,162,74,0.25), transparent);
+}
+.lawyers-inner { max-width:1500px; margin:0 auto; padding:0 5rem; position:relative; z-index:2; }
+.lawyers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4.5rem; }
+.lawyer-card { cursor:default; }
+.lawyer-img-wrap { position:relative; margin-bottom:2.2rem; overflow:hidden; background:var(--navy-deep); }
+.lawyer-img-inner { aspect-ratio:3/4; overflow:hidden; }
+.lawyer-img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:grayscale(1) brightness(0.88);
+  transform:scale(1); transition: filter 2s ease, transform 2s ease;
+}
+.lawyer-card:hover .lawyer-img { filter:grayscale(0) brightness(1); transform:scale(1.05); }
+.lawyer-frame {
+  position:absolute; inset:1.5rem; border:1px solid rgba(255,255,255,0.1);
+  pointer-events:none; z-index:2; transition:inset 0.8s, border-color 0.8s;
+}
+.lawyer-card:hover .lawyer-frame { inset:0; border-color:rgba(201,162,74,0.4); }
+.lawyer-img-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(4,25,58,0.92), transparent 55%); z-index:1; pointer-events:none; }
+.lawyer-img-info { position:absolute; bottom:0; left:0; right:0; padding:2.5rem; z-index:3; transform:translateY(6px); transition:transform 0.7s; }
+.lawyer-card:hover .lawyer-img-info { transform:none; }
+.lawyer-role { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.5em; text-transform:uppercase; font-weight:700; color:rgba(201,162,74,0.8); display:block; margin-bottom:0.6rem; }
+.lawyer-name { font-family:'Amiri',serif; font-size:1.75rem; font-style:italic; color:var(--white); line-height:1.2; margin-bottom:0.8rem; }
+.lawyer-rule { width:48px; height:1px; background:rgba(201,162,74,0.4); transition:width 0.8s; }
+.lawyer-card:hover .lawyer-rule { width:100%; }
+.lawyer-body { padding:0 0.5rem; }
+.lawyer-spec { color:rgba(245,243,238,0.55); font-style:italic; font-size:1.05rem; line-height:1.65; margin-bottom:1.1rem; }
+.lawyer-years-row { display:flex; align-items:center; gap:1.5rem; }
+.lawyer-years-rule { width:32px; height:1px; background:rgba(255,255,255,0.12); }
+.lawyer-years { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:0.3em; font-weight:700; color:rgba(245,243,238,0.25); text-transform:uppercase; }
+.lawyers-cta-bar {
+  margin-top:6rem; padding:3.5rem; border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.02); display:flex; align-items:center;
+  justify-content:space-between; gap:3rem; flex-wrap:wrap; backdrop-filter:blur(12px);
+}
+.lawyers-cta-icon { width:56px; height:56px; border-radius:50%; border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold); flex-shrink:0; }
+.lawyers-cta-title { font-family:'Amiri',serif; font-size:1.35rem; font-style:italic; color:var(--white); margin-bottom:0.3rem; }
+.lawyers-cta-sub { color:rgba(245,243,238,0.35); font-size:0.9rem; font-style:italic; }
+
+/* ═══════════════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════════════ */
+#testimonials { padding:10rem 0; background:var(--navy-deep); position:relative; overflow:hidden; }
+.testimonials-inner { max-width:1200px; margin:0 auto; padding:0 5rem; position:relative; z-index:2; }
+.testimonials-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
+.testimonial-card {
+  padding:5rem; background:rgba(255,255,255,0.022); border:1px solid rgba(255,255,255,0.05);
+  position:relative; transition: all 0.8s; cursor:default;
+}
+.testimonial-card:hover { background:rgba(255,255,255,0.04); transform:translateY(-4px); box-shadow:0 40px 80px rgba(0,0,0,0.3); }
+.testimonial-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(to right, transparent, var(--gold-dim), transparent); }
+.t-quote-icon { position:absolute; top:36px; right:36px; color:rgba(201,162,74,0.08); }
+.t-text { font-family:'Amiri',serif; font-size:1.35rem; font-style:italic; color:var(--white); line-height:1.75; margin-bottom:4rem; position:relative; z-index:1; }
+.t-footer { display:flex; align-items:center; gap:1.75rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:2rem; }
+.t-rule { width:48px; height:1px; background:var(--gold); }
+.t-name { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; font-weight:700; color:rgba(245,243,238,0.38); }
+
+/* ═══════════════════════════════════════════════════
+   BRIEFINGS
+═══════════════════════════════════════════════════ */
+#briefings { padding:10rem 0; background:var(--navy); position:relative; overflow:hidden; }
+.briefings-inner { max-width:1200px; margin:0 auto; padding:0 5rem; position:relative; z-index:2; }
+.briefings-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4rem; }
+.briefing-card {
+  padding:4rem; background:rgba(255,255,255,0.012); border:1px solid rgba(255,255,255,0.05);
+  cursor:default; transition:all 0.7s; position:relative; overflow:hidden;
+}
+.briefing-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background: var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.7s cubic-bezier(.16,1,.3,1); }
+.briefing-card:hover::after { transform:scaleX(1); }
+.briefing-card:hover { background:rgba(255,255,255,0.03); }
+.briefing-date { display:flex; align-items:center; gap:0.85rem; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; font-weight:700; color:rgba(201,162,74,0.6); margin-bottom:2rem; }
+.briefing-title { font-family:'Amiri',serif; font-size:1.45rem; font-style:italic; color:var(--white); margin-bottom:2.5rem; line-height:1.4; transition:color 0.5s; }
+.briefing-card:hover .briefing-title { color:var(--gold); }
+.briefing-read { display:flex; align-items:center; gap:1rem; color:rgba(245,243,238,0.28); transition:all 0.7s; }
+.briefing-card:hover .briefing-read { color:var(--gold); transform:translateX(8px); }
+.briefing-read-line { width:48px; height:1px; background:currentColor; }
+.briefing-read-text { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; font-weight:700; }
+
+/* ═══════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════ */
+#faq { padding:10rem 0; background:var(--navy-deep); position:relative; }
+.faq-inner { max-width:860px; margin:0 auto; padding:0 5rem; }
+.faq-list { display:flex; flex-direction:column; gap:1rem; }
+.faq-item { border:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.02); overflow:hidden; }
+.faq-trigger {
+  width:100%; padding:2.5rem; display:flex; align-items:center; justify-content:space-between;
+  text-align:inherit; cursor:none; background:none; border:none;
+  transition:background 0.5s;
+}
+.faq-trigger:hover { background:rgba(255,255,255,0.02); }
+.faq-q { font-family:'Amiri',serif; font-style:italic; font-size:1.3rem; color:var(--white); flex:1; padding-inline-end:2rem; transition:color 0.4s; text-align:inherit; }
+.faq-item.open .faq-q { color:var(--gold); }
+.faq-toggle {
+  width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,0.1);
+  display:flex; align-items:center; justify-content:center; color:var(--white); flex-shrink:0;
+  background:transparent; transition:all 0.5s; font-size:1.2rem; line-height:1;
+}
+.faq-item.open .faq-toggle { background:var(--gold); color:var(--navy-deep); transform:rotate(45deg); border-color:var(--gold); }
+.faq-body { max-height:0; overflow:hidden; transition:max-height 0.65s ease, opacity 0.4s ease; opacity:0; }
+.faq-item.open .faq-body { max-height:300px; opacity:1; }
+.faq-body-inner { padding:0 3rem 3.5rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:1rem; }
+.faq-a { font-family:'Amiri',serif; font-style:italic; font-size:1.05rem; color:rgba(245,243,238,0.4); line-height:1.8; font-weight:300; }
+
+/* ═══════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════ */
+#contact { padding:10rem 0; background:var(--navy); position:relative; overflow:hidden; }
+.contact-inner { max-width:1500px; margin:0 auto; padding:0 5rem; display:grid; grid-template-columns:1fr 1.2fr; gap:9rem; position:relative; z-index:2; }
+.contact-intro { color:rgba(245,243,238,0.38); font-style:italic; line-height:1.85; font-size:1.1rem; margin-bottom:4.5rem; border-inline-start:1px solid rgba(201,162,74,0.2); padding-inline-start:2.5rem; }
+.contact-info-list { display:flex; flex-direction:column; gap:2.5rem; }
+.contact-info-item { display:flex; align-items:flex-start; gap:2.5rem; }
+.contact-info-icon {
+  width:64px; height:64px; flex-shrink:0; border:1px solid rgba(255,255,255,0.05);
+  display:flex; align-items:center; justify-content:center; color:var(--gold);
+  background:rgba(255,255,255,0.02); transition:all 0.5s;
+}
+.contact-info-item:hover .contact-info-icon { background:var(--gold); color:var(--navy-deep); }
+.contact-info-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.35em; text-transform:uppercase; font-weight:700; color:rgba(255,255,255,0.2); margin-bottom:0.5rem; }
+.contact-info-val { font-family:'Amiri',serif; font-size:1.3rem; font-style:italic; color:var(--white); transition:color 0.3s; }
+.contact-info-item:hover .contact-info-val { color:var(--gold); }
+.contact-form-card {
+  padding:4.5rem; background:rgba(4,12,30,0.97); border:1px solid rgba(255,255,255,0.05);
+  position:relative; overflow:hidden; backdrop-filter:blur(24px);
+}
+.contact-form-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(to right, transparent, var(--gold), transparent); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-bottom:3rem; }
+.form-group { margin-bottom:3rem; }
+.form-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; font-weight:700; color:rgba(201,162,74,0.6); display:block; margin-bottom:0.85rem; }
+.form-input {
+  width:100%; background:rgba(255,255,255,0.025); border:none; border-bottom:1px solid rgba(255,255,255,0.1);
+  padding:1.25rem 0; color:var(--white); font-family:'Amiri',serif; font-style:italic; font-size:1.25rem;
+  outline:none; transition:border-color 0.4s; box-sizing:border-box;
+}
+.form-input:focus { border-bottom-color:var(--gold); }
+.form-input::placeholder { opacity:0.2; }
+.form-textarea { resize:none; }
+.btn-submit {
+  width:100%; padding:2rem; background:var(--gold); color:var(--navy-deep);
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.5em; text-transform:uppercase;
+  font-weight:700; border:none; cursor:none; transition:all 0.7s; position:relative; overflow:hidden;
+}
+.btn-submit::before { content:''; position:absolute; inset:0; background:var(--white); transform:scaleX(0); transform-origin:left; transition:transform 0.7s cubic-bezier(.16,1,.3,1); }
+.btn-submit:hover::before { transform:scaleX(1); }
+.btn-submit span { position:relative; z-index:1; }
+.form-success {
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:2.5rem; padding: 4rem 0; display:none;
+}
+.form-success.visible { display:flex; }
+.form-success-icon { width:96px; height:96px; border-radius:50%; border:1px solid rgba(201,162,74,0.2); display:flex; align-items:center; justify-content:center; color:var(--gold); }
+.form-success-title { font-family:'Amiri',serif; font-size:2rem; font-style:italic; color:var(--white); }
+.form-success-sub { color:rgba(245,243,238,0.4); font-style:italic; }
+.form-success-reset { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; font-weight:700; color:var(--gold); background:none; border:none; border-bottom:1px solid rgba(201,162,74,0.2); padding-bottom:0.5rem; cursor:none; }
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer {
+  background: var(--navy-deep); padding-top:7rem; padding-bottom:3.5rem;
+  border-top:1px solid rgba(255,255,255,0.04); position:relative; overflow:hidden;
+}
+.footer-inner { max-width:1200px; margin:0 auto; padding:0 5rem; }
+.footer-grid { display:grid; grid-template-columns:5fr 3fr 4fr; gap:5rem; margin-bottom:6rem; }
+.footer-brand-name { font-family:'Amiri',serif; font-size:2rem; color:var(--white); font-style:italic; letter-spacing:0.1em; margin-bottom:2rem; }
+.footer-brand-desc { color:rgba(245,243,238,0.35); font-size:1rem; font-style:italic; line-height:1.75; max-width:24rem; }
+.footer-nav-title { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.35em; text-transform:uppercase; font-weight:700; color:var(--white); margin-bottom:2.5rem; }
+.footer-nav-list { list-style:none; display:flex; flex-direction:column; gap:1rem; }
+.footer-nav-link { font-family:'Amiri',serif; font-style:italic; color:rgba(245,243,238,0.38); text-decoration:none; font-size:1rem; transition:color 0.3s; }
+.footer-nav-link:hover { color:var(--gold); }
+.footer-contact-title { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.35em; text-transform:uppercase; font-weight:700; color:var(--white); margin-bottom:2.5rem; }
+.footer-phone { color:rgba(245,243,238,0.6); font-weight:500; letter-spacing:0.02em; font-size:1rem; }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.04); padding-top:3rem; display:flex; justify-content:space-between; align-items:center; }
+.footer-copy { font-family:'Cinzel',serif; font-size:9px; text-transform:uppercase; letter-spacing:0.25em; color:rgba(245,243,238,0.18); font-weight:700; }
+.footer-badge { display:flex; align-items:center; gap:0.75rem; color:rgba(201,162,74,0.38); }
+.footer-badge-text { font-family:'Cinzel',serif; font-size:8px; text-transform:uppercase; letter-spacing:0.35em; font-weight:900; }
+
+/* ═══════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width:1100px) {
+  .hero-content { grid-template-columns:1fr; }
+  .hero-stats { flex-direction:row; }
+  .about-inner { grid-template-columns:1fr; }
+  .about-badge { display:none; }
+  .practice-grid { grid-template-columns:1fr 1fr; }
+  .why-inner { grid-template-columns:1fr; }
+  .lawyers-grid { grid-template-columns:1fr 1fr; }
+  .testimonials-grid { grid-template-columns:1fr; }
+  .briefings-grid { grid-template-columns:1fr; }
+  .contact-inner { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr; }
+}
+@media (max-width:768px) {
+  nav { padding:0 2rem; }
+  .nav-links { display:none; }
+  .nav-hamburger { display:flex; }
+  .hero-content { padding:0 2rem; }
+  .about-inner, .practice-inner, .why-inner, .lawyers-inner,
+  .testimonials-inner, .briefings-inner, .faq-inner,
+  .contact-inner, .footer-inner { padding:0 2rem; }
+  .practice-grid, .lawyers-grid, .why-grid { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+}
+
+/* ═══════════════════════════════════════════════════
+   SVG ICONS (inline)
+═══════════════════════════════════════════════════ */
+.icon { display:inline-block; vertical-align:middle; }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- GOLD PARTICLE CANVAS -->
+<canvas id="gold-canvas"></canvas>
+
+<!-- GRAIN OVERLAY -->
+<div id="grain"></div>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pre-inner">
+    <div class="pre-line-l"></div>
+    <div class="pre-line-r"></div>
+    <div class="pre-since">Excellence Since 1995</div>
+    <h2 class="pre-title"><span>البراء</span></h2>
+    <div class="pre-dots">
+      <div class="pre-dot"></div>
+      <div class="pre-dot"></div>
+      <div class="pre-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SITE WRAPPER -->
+<div id="site">
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <span class="nav-logo-ar">البراء</span>
+    <span class="nav-logo-en">INTERNATIONAL COUNSEL</span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#practice" class="nav-link" data-ar="الخدمات" data-en="Practice">الخدمات</a>
+    <a href="#about" class="nav-link" data-ar="إرثنا" data-en="Legacy">إرثنا</a>
+    <a href="#lawyers" class="nav-link" data-ar="المحاميون" data-en="Team">المحاميون</a>
+    <a href="#briefings" class="nav-link" data-ar="البحوث" data-en="Insights">البحوث</a>
+    <a href="#contact" class="nav-link" data-ar="تواصل" data-en="Contact">تواصل</a>
+    <div class="nav-divider"></div>
+    <button class="nav-lang" id="lang-toggle">English</button>
+    <a href="#contact" class="nav-cta"><span data-ar="استشارة خاصة" data-en="Consultation">استشارة خاصة</span></a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu">
+  <div class="mobile-menu-header">
+    <span style="font-family:'Amiri',serif;font-size:1.5rem;letter-spacing:0.2em;color:var(--gold);">البراء</span>
+    <button class="close-btn" id="close-menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <a href="#practice" class="mobile-nav-link" data-ar="الخدمات" data-en="Practice">الخدمات</a>
+  <a href="#about" class="mobile-nav-link" data-ar="إرثنا" data-en="Legacy">إرثنا</a>
+  <a href="#lawyers" class="mobile-nav-link" data-ar="المحاميون" data-en="Team">المحاميون</a>
+  <a href="#briefings" class="mobile-nav-link" data-ar="البحوث" data-en="Insights">البحوث</a>
+  <a href="#contact" class="mobile-nav-link" data-ar="تواصل" data-en="Contact">تواصل</a>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text" data-ar="مستشارون قانونيون دوليون" data-en="International Senior Counsel">مستشارون قانونيون دوليون</span>
+      </div>
+      <h1 class="hero-h1">
+        <span class="hero-sub" data-ar="صياغة" data-en="Architecting">صياغة</span>
+        <span class="hero-main gold-foil" data-ar="السيادة القانونية." data-en="Legal Supremacy.">السيادة القانونية.</span>
+      </h1>
+      <p class="hero-desc" data-ar="نصمم أطراً قانونية تتجاوز الحدود، لحماية مصالح الأسر الحاكمة والكيانات السيادية بأعلى درجات السرية." data-en="Crafting legal frameworks that transcend borders, protecting the interests of ruling dynasties with absolute discretion.">
+        نصمم أطراً قانونية تتجاوز الحدود، لحماية مصالح الأسر الحاكمة والكيانات السيادية بأعلى درجات السرية.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">
+          <span data-ar="طلب إحاطة خاصة" data-en="Request a Private Briefing">طلب إحاطة خاصة</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+        <a href="#about" class="btn-secondary" data-ar="إرثنا الاستراتيجي" data-en="Our Strategic Legacy">إرثنا الاستراتيجي</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat s1">
+        <div class="hero-stat-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="hero-stat-val" data-ar="$20B+" data-en="$20B+">$20B+</div>
+          <div class="hero-stat-lbl" data-ar="أصول مُدارة بقيمة" data-en="Capital Managed">أصول مُدارة بقيمة</div>
+        </div>
+      </div>
+      <div class="hero-stat s2">
+        <div class="hero-stat-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div>
+          <div class="hero-stat-val" data-ar="التميز السيادي" data-en="Sovereign Distinction">التميز السيادي</div>
+          <div class="hero-stat-lbl" data-ar="اعتماد دولي" data-en="International Vetting">اعتماد دولي</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">SCROLL TO DISCOVER</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img-wrap reveal reveal-left">
+      <div class="about-img-frame">
+        <img referrerpolicy="no-referrer" loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=900&auto=format&fit=crop" alt="Elite Law Firm" class="about-img" />
+        <div class="about-img-overlay"></div>
+      </div>
+      <div class="about-badge reveal reveal-delay-2">
+        <span class="about-badge-label">Our Core Doctrine</span>
+        <p class="about-badge-quote" data-ar="العدالة هي فن الدقة المتناهية" data-en="Justice is the Art of Infinite Precision">العدالة هي فن الدقة المتناهية</p>
+        <div class="about-badge-rule"></div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-heading reveal">
+        <div class="sh-label-row">
+          <span class="sh-number">I</span>
+          <div class="sh-rule"></div>
+          <span class="sh-label" data-ar="العقيدة الاستراتيجية" data-en="Strategic Doctrine">العقيدة الاستراتيجية</span>
+          <div class="sh-rule"></div>
+        </div>
+        <h2 class="sh-title light" data-ar="صناعة السيادة: ثلاثة عقود من الدفاع النخبوي" data-en="Architecting Sovereignty: Three Decades of Elite Defense">صناعة السيادة: ثلاثة عقود من الدفاع النخبوي</h2>
+        <div class="sh-rule-bottom"></div>
+      </div>
+      <blockquote class="about-blockquote reveal reveal-delay-1" data-ar="منذ عام ١٩٩٥، يمثل مكتب البراء قمة الحصافة القانونية الدولية. نحن لا ندير القضايا فحسب، بل نصمم الأطر السيادية." data-en="Since 1995, Al-Baraa has stood as the pinnacle of international legal prudence. We architect the sovereign frameworks that ensure preeminence.">
+        منذ عام ١٩٩٥، يمثل مكتب البراء قمة الحصافة القانونية الدولية. نحن لا ندير القضايا فحسب، بل نصمم الأطر السيادية.
+      </blockquote>
+      <p class="about-para reveal reveal-delay-2" data-ar="رؤيتنا تتجاوز المألوف؛ نحن نبني حصوناً قانونية تحمي الثروات العابرة للأجيال والمصالح الاستراتيجية العليا." data-en="Our vision transcends the ordinary; we build legal fortresses that protect generational wealth and supreme strategic interests.">
+        رؤيتنا تتجاوز المألوف؛ نحن نبني حصوناً قانونية تحمي الثروات العابرة للأجيال والمصالح الاستراتيجية العليا.
+      </p>
+      <div class="about-metrics reveal reveal-delay-3">
+        <div>
+          <div class="about-metric-num">30+</div>
+          <div class="about-metric-lbl">Years Experience</div>
+        </div>
+        <div class="about-metric-divider"></div>
+        <div>
+          <div class="about-metric-num" data-ar="عالمي" data-en="Global">عالمي</div>
+          <div class="about-metric-lbl">Jurisdiction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PRACTICES ═══════ -->
+<section id="practice">
+  <div class="practice-bg"></div>
+  <div class="practice-bg-overlay"></div>
+  <div class="practice-inner">
+    <div class="section-heading centered reveal">
+      <div class="sh-label-row">
+        <span class="sh-number">II</span>
+        <div class="sh-rule"></div>
+        <span class="sh-label" data-ar="مجالات الممارسة" data-en="Core Jurisdictions">مجالات الممارسة</span>
+        <div class="sh-rule"></div>
+      </div>
+      <h2 class="sh-title light" data-ar="حلول قانونية للأزمات والنزاعات" data-en="Mastering Complexity with Absolute Precision">حلول قانونية للأزمات والنزاعات</h2>
+      <div class="sh-rule-bottom"></div>
+    </div>
+    <div class="practice-grid">
+      <!-- Card 01 -->
+      <div class="practice-card reveal">
+        <span class="practice-num">01</span>
+        <div class="practice-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22V12M12 12L4 8M12 12l8-4M4 8V4l8 4 8-4v4M4 8l8 4 8-4"/></svg>
+        </div>
+        <h3 class="practice-title" data-ar="التحكيم الدولي والنزاعات السيادية" data-en="International Arbitration & Sovereign Disputes">التحكيم الدولي والنزاعات السيادية</h3>
+        <p class="practice-desc" data-ar="صياغة استراتيجيات الدفاع والتمثيل أمام المحاكم الدولية وهيئات التحكيم المرموقة." data-en="Architecting high-stakes defense strategies before international courts and elite arbitration tribunals.">صياغة استراتيجيات الدفاع والتمثيل أمام المحاكم الدولية وهيئات التحكيم المرموقة.</p>
+        <div class="practice-caps">
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="التحكيم التجاري والاستثماري" data-en="Commercial & Investment Arbitration">التحكيم التجاري والاستثماري</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="نزاعات المعاهدات الدولية" data-en="International Treaty Disputes">نزاعات المعاهدات الدولية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="تنفيذ أحكام المحاكم الأجنبية" data-en="Enforcement of Foreign Awards">تنفيذ أحكام المحاكم الأجنبية</span></div>
+        </div>
+      </div>
+      <!-- Card 02 -->
+      <div class="practice-card reveal reveal-delay-1">
+        <span class="practice-num">02</span>
+        <div class="practice-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="3" y1="22" x2="21" y2="22"/><rect x="2" y="6" width="20" height="16" rx="0"/><path d="M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg>
+        </div>
+        <h3 class="practice-title" data-ar="قانون الأسر الحاكمة والثروات الخاصة" data-en="Dynastic Law & Private Wealth Architecture">قانون الأسر الحاكمة والثروات الخاصة</h3>
+        <p class="practice-desc" data-ar="حماية الخصوصية المطلقة وتنظيم الأصول العالمية لضمان استمرارية النفوذ والثروة عبر الأجيال." data-en="Protecting absolute privacy and structuring global assets to ensure continuity of wealth across generations.">حماية الخصوصية المطلقة وتنظيم الأصول العالمية لضمان استمرارية النفوذ والثروة عبر الأجيال.</p>
+        <div class="practice-caps">
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="تنظيم الأوقاف والصناديق العائلية" data-en="Family Trusts & Endowment Structuring">تنظيم الأوقاف والصناديق العائلية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="إدارة الحصانات والكيانات السيادية" data-en="Sovereign Entities & Immunities">إدارة الحصانات والكيانات السيادية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="تخطيط الثروات العابرة للحدود" data-en="Transcontinental Wealth Planning">تخطيط الثروات العابرة للحدود</span></div>
+        </div>
+      </div>
+      <!-- Card 03 -->
+      <div class="practice-card reveal reveal-delay-2">
+        <span class="practice-num">03</span>
+        <div class="practice-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="practice-title" data-ar="حوكمة الشركات والاندماج الكلي" data-en="Corporate Governance & Macro M&A">حوكمة الشركات والاندماج الكلي</h3>
+        <p class="practice-desc" data-ar="توجيه التحالفات الاستراتيجية والصفقات الكبرى التي تعيد صياغة الأسواق العالمية." data-en="Guiding strategic alliances and monumental transactions that reshape global markets.">توجيه التحالفات الاستراتيجية والصفقات الكبرى التي تعيد صياغة الأسواق العالمية.</p>
+        <div class="practice-caps">
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="حوكمة الشركات المسجلة دولياً" data-en="Governance of Multi-Jurisdictional Entities">حوكمة الشركات المسجلة دولياً</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="عمليات الاستحواذ العابر للقارات" data-en="Transcontinental Acquisitions">عمليات الاستحواذ العابر للقارات</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="تمويل المشاريع الاستراتيجية" data-en="Strategic Project Finance">تمويل المشاريع الاستراتيجية</span></div>
+        </div>
+      </div>
+      <!-- Card 04 -->
+      <div class="practice-card reveal">
+        <span class="practice-num">04</span>
+        <div class="practice-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3 class="practice-title" data-ar="قانون العمل والنزاعات العمالية" data-en="Labour Law & Employment Disputes">قانون العمل والنزاعات العمالية</h3>
+        <p class="practice-desc" data-ar="تقديم استشارات شاملة في صياغة عقود العمل وإدارة النزاعات العمالية." data-en="Providing comprehensive counsel in employment contracts and labour dispute management.">تقديم استشارات شاملة في صياغة عقود العمل وإدارة النزاعات العمالية.</p>
+        <div class="practice-caps">
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="صياغة عقود العمل التخصصية" data-en="Drafting Specialized Employment Contracts">صياغة عقود العمل التخصصية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="التمثيل في النزاعات العمالية" data-en="Representation in Labour Disputes">التمثيل في النزاعات العمالية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="سياسات الامتثال والموارد البشرية" data-en="Compliance & HR Policies">سياسات الامتثال والموارد البشرية</span></div>
+        </div>
+      </div>
+      <!-- Card 05 -->
+      <div class="practice-card reveal reveal-delay-1">
+        <span class="practice-num">05</span>
+        <div class="practice-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3 class="practice-title" data-ar="القانون الجنائي والجرائم الاقتصادية" data-en="Criminal Law & Financial Crimes">القانون الجنائي والجرائم الاقتصادية</h3>
+        <p class="practice-desc" data-ar="دفاع استراتيجي في القضايا الجنائية المعقدة وجرائم الأموال مع التركيز على حماية السمعة." data-en="Strategic defense in complex criminal cases and financial crimes, focusing on reputation protection.">دفاع استراتيجي في القضايا الجنائية المعقدة وجرائم الأموال مع التركيز على حماية السمعة.</p>
+        <div class="practice-caps">
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="التمثيل في الجرائم الاقتصادية" data-en="White-Collar Crime Representation">التمثيل في الجرائم الاقتصادية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="التحقيقات الجنائية الدولية" data-en="International Criminal Investigations">التحقيقات الجنائية الدولية</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="دفاع النخبة في القضايا الحرجة" data-en="High-Profile Criminal Defense">دفاع النخبة في القضايا الحرجة</span></div>
+        </div>
+      </div>
+      <!-- Card 06 -->
+      <div class="practice-card reveal reveal-delay-2">
+        <span class="practice-num">06</span>
+        <div class="practice-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3 class="practice-title" data-ar="القانون الشرعي وقضايا الأسرة" data-en="Sharia Law & Family Matters">القانون الشرعي وقضايا الأسرة</h3>
+        <p class="practice-desc" data-ar="حلول قانونية تراعي الضوابط الشرعية في قضايا الميراث والأوقاف والأحوال الشخصية للنخبة." data-en="Legal solutions adhering to Sharia principles in inheritance, endowments, and personal status for the elite.">حلول قانونية تراعي الضوابط الشرعية في قضايا الميراث والأوقاف والأحوال الشخصية للنخبة.</p>
+        <div class="practice-caps">
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="تنظيم التركات والمواريث المعقدة" data-en="Complex Estate & Inheritance Structuring">تنظيم التركات والمواريث المعقدة</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="قضايا الأوقاف والوصايا" data-en="Endowment & Will Management">قضايا الأوقاف والوصايا</span></div>
+          <div class="practice-cap"><div class="practice-cap-dot"></div><span class="practice-cap-text" data-ar="التحكيم في منازعات الأسرة" data-en="Family Dispute Arbitration">التحكيم في منازعات الأسرة</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PHILOSOPHY ═══════ -->
+<section id="why-us">
+  <div class="why-inner">
+    <div>
+      <div class="section-heading reveal">
+        <div class="sh-label-row">
+          <span class="sh-number">III</span>
+          <div class="sh-rule"></div>
+          <span class="sh-label" data-ar="الفلسفة الاستراتيجية" data-en="Strategic Philosophy">الفلسفة الاستراتيجية</span>
+          <div class="sh-rule"></div>
+        </div>
+        <h2 class="sh-title light" data-ar="لماذا يختارنا ملوك السوق؟" data-en="The Preference of Sovereigns">لماذا يختارنا ملوك السوق؟</h2>
+        <div class="sh-rule-bottom"></div>
+      </div>
+      <p class="reveal reveal-delay-1" style="color:rgba(245,243,238,0.4);font-style:italic;line-height:1.85;font-size:1.05rem;" data-ar="نحن لا نقدم خدمات قانونية فحسب، بل نقدم شراكة استراتيجية تهدف لحماية الإرث والسيادة في عالم معقد." data-en="We do not just provide legal services; we offer a strategic partnership aimed at protecting legacy and sovereignty.">
+        نحن لا نقدم خدمات قانونية فحسب، بل نقدم شراكة استراتيجية تهدف لحماية الإرث والسيادة في عالم معقد.
+      </p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-card-title" data-ar="إرث من الحصافة القانونية" data-en="Legacy of Jurisprudence">إرث من الحصافة القانونية</div>
+        <p class="why-card-desc" data-ar="أكثر من ثلاثة عقود من حماية المصالح العليا للدول والأسر الحاكمة بذكاء قانوني فذ." data-en="Over three decades protecting supreme interests of states and ruling dynasties with exceptional legal intelligence.">أكثر من ثلاثة عقود من حماية المصالح العليا للدول والأسر الحاكمة بذكاء قانوني فذ.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-card-title" data-ar="نفوذ عالمي عابر للقارات" data-en="Transcontinental Influence">نفوذ عالمي عابر للقارات</div>
+        <p class="why-card-desc" data-ar="شبكة نفوذ قانونية تمتد عبر أعرق المحاكم وهيئات التحكيم الدولية لضمان التفوق المطلق." data-en="A legal influence network spanning the world's most prestigious courts and international arbitration tribunals.">شبكة نفوذ قانونية تمتد عبر أعرق المحاكم وهيئات التحكيم الدولية لضمان التفوق المطلق.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-card-title" data-ar="السرية المطلقة والبروتوكولات السيادية" data-en="Absolute Discretion & Sovereign Protocols">السرية المطلقة والبروتوكولات السيادية</div>
+        <p class="why-card-desc" data-ar="نطبق معايير أمنية سيادية لحماية كافة البيانات والاتصالات القانونية الحساسة." data-en="Applying sovereign-grade security standards to protect all sensitive legal data and communications.">نطبق معايير أمنية سيادية لحماية كافة البيانات والاتصالات القانونية الحساسة.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-3">
+        <div class="why-card-title" data-ar="صياغة الحلول القانونية النوعية" data-en="Specialized Legal Architecture">صياغة الحلول القانونية النوعية</div>
+        <p class="why-card-desc" data-ar="نصمم بنية قانونية فريدة لكل نزاع تضمن الريادة والسيادة للموكلين." data-en="We architect unique legal structures for every dispute to ensure dominance and sovereignty for our clients.">نصمم بنية قانونية فريدة لكل نزاع تضمن الريادة والسيادة للموكلين.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ LAWYERS ═══════ -->
+<section id="lawyers">
+  <div class="lawyers-inner">
+    <div class="section-heading centered reveal">
+      <div class="sh-label-row">
+        <span class="sh-number">IV</span>
+        <div class="sh-rule"></div>
+        <span class="sh-label" data-ar="النخبة القانونية" data-en="The Legal Elite">النخبة القانونية</span>
+        <div class="sh-rule"></div>
+      </div>
+      <h2 class="sh-title light" data-ar="عقول تصوغ السيادة الاستراتيجية" data-en="Architects of Sovereign Intelligence">عقول تصوغ السيادة الاستراتيجية</h2>
+      <p class="sh-subtitle" data-ar="فريق من كبار المفكرين القانونيين، يجمعون بين المعرفة العميقة والرؤية السياسية." data-en="A vanguard of legal masterminds, merging profound jurisprudential knowledge with geo-strategic insight.">فريق من كبار المفكرين القانونيين، يجمعون بين المعرفة العميقة والرؤية السياسية.</p>
+      <div class="sh-rule-bottom"></div>
+    </div>
+    <div class="lawyers-grid">
+      <!-- Lawyer 1 -->
+      <article class="lawyer-card reveal">
+        <div class="lawyer-img-wrap">
+          <div class="lawyer-img-inner">
+            <img referrerpolicy="no-referrer" loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" alt="Mohammed Al-Baraa" class="lawyer-img" />
+          </div>
+          <div class="lawyer-frame"></div>
+          <div class="lawyer-img-overlay"></div>
+          <div class="lawyer-img-info">
+            <span class="lawyer-role" data-ar="المستشار العام والعضو المنتدب" data-en="Senior Principal & Managing Director">المستشار العام والعضو المنتدب</span>
+            <h3 class="lawyer-name" data-ar="الأستاذ محمد البراء" data-en="Mohammed Al-Baraa, KC">الأستاذ محمد البراء</h3>
+            <div class="lawyer-rule"></div>
+          </div>
+        </div>
+        <div class="lawyer-body">
+          <p class="lawyer-spec" data-ar="التحكيم الدولي والنزاعات السيادية" data-en="International Arbitration & Sovereign Disputes">التحكيم الدولي والنزاعات السيادية</p>
+          <div class="lawyer-years-row">
+            <div class="lawyer-years-rule"></div>
+            <span class="lawyer-years" data-ar="٣٥ عاماً من الحصافة القانونية" data-en="35 Years of Legal Mastery">٣٥ عاماً من الحصافة القانونية</span>
+          </div>
+        </div>
+      </article>
+      <!-- Lawyer 2 -->
+      <article class="lawyer-card reveal reveal-delay-1">
+        <div class="lawyer-img-wrap">
+          <div class="lawyer-img-inner">
+            <img referrerpolicy="no-referrer" loading="lazy" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Sara Al-Ali" class="lawyer-img" />
+          </div>
+          <div class="lawyer-frame"></div>
+          <div class="lawyer-img-overlay"></div>
+          <div class="lawyer-img-info">
+            <span class="lawyer-role" data-ar="رئيسة قطاع الثروات الخاصة والأسر الحاكمة" data-en="Head of Private Wealth & Dynastic Affairs">رئيسة قطاع الثروات الخاصة</span>
+            <h3 class="lawyer-name" data-ar="الأستاذة سارة العلي" data-en="Sara Al-Ali">الأستاذة سارة العلي</h3>
+            <div class="lawyer-rule"></div>
+          </div>
+        </div>
+        <div class="lawyer-body">
+          <p class="lawyer-spec" data-ar="تنظيم الأصول وحماية الثروات العائلية" data-en="Private Asset Architecture & Dynastic Guardianship">تنظيم الأصول وحماية الثروات العائلية</p>
+          <div class="lawyer-years-row">
+            <div class="lawyer-years-rule"></div>
+            <span class="lawyer-years" data-ar="٢٨ عاماً من الدقة الاستشارية" data-en="28 Years of Consultative Precision">٢٨ عاماً من الدقة الاستشارية</span>
+          </div>
+        </div>
+      </article>
+      <!-- Lawyer 3 -->
+      <article class="lawyer-card reveal reveal-delay-2">
+        <div class="lawyer-img-wrap">
+          <div class="lawyer-img-inner">
+            <img referrerpolicy="no-referrer" loading="lazy" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" alt="Omar Al-Qasem" class="lawyer-img" />
+          </div>
+          <div class="lawyer-frame"></div>
+          <div class="lawyer-img-overlay"></div>
+          <div class="lawyer-img-info">
+            <span class="lawyer-role" data-ar="شريك أول — الاندماج والاستحواذ الضخم" data-en="Senior Partner — Monumental M&A">شريك أول — الاندماج والاستحواذ</span>
+            <h3 class="lawyer-name" data-ar="الأستاذ عمر القاسم" data-en="Omar Al-Qasem">الأستاذ عمر القاسم</h3>
+            <div class="lawyer-rule"></div>
+          </div>
+        </div>
+        <div class="lawyer-body">
+          <p class="lawyer-spec" data-ar="حوكمة الشركات الكبرى والصفقات العابرة للقارات" data-en="Global Corporate Governance & Continental Transactions">حوكمة الشركات الكبرى والصفقات العابرة للقارات</p>
+          <div class="lawyer-years-row">
+            <div class="lawyer-years-rule"></div>
+            <span class="lawyer-years" data-ar="٢٢ عاماً من الريادة المؤسسية" data-en="22 Years of Institutional Leadership">٢٢ عاماً من الريادة المؤسسية</span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="lawyers-cta-bar reveal reveal-delay-3">
+      <div style="display:flex;align-items:center;gap:2rem;">
+        <div class="lawyers-cta-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div>
+          <div class="lawyers-cta-title" data-ar="رؤية عالمية، حماية محلية" data-en="Global Vision, Local Protection">رؤية عالمية، حماية محلية</div>
+          <p class="lawyers-cta-sub" data-ar="نحن نجمع بين أذكى العقول القانونية لضمان سيادتكم." data-en="We unite the sharpest legal minds to ensure your sovereignty.">نحن نجمع بين أذكى العقول القانونية لضمان سيادتكم.</p>
+        </div>
+      </div>
+      <a href="#contact" class="btn-primary"><span data-ar="حجز جلسة إحاطة" data-en="Book Briefing">حجز جلسة إحاطة</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+<section id="testimonials">
+  <div class="testimonials-inner">
+    <div class="section-heading centered reveal">
+      <div class="sh-label-row">
+        <span class="sh-number">V</span>
+        <div class="sh-rule"></div>
+        <span class="sh-label" data-ar="أصداء التميز" data-en="Echoes of Excellence">أصداء التميز</span>
+        <div class="sh-rule"></div>
+      </div>
+      <h2 class="sh-title light" data-ar="نخبة ملوك السوق" data-en="Vetted by Market Leaders">نخبة ملوك السوق</h2>
+      <div class="sh-rule-bottom"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <svg class="t-quote-icon" width="60" height="60" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+        <blockquote class="t-text" data-ar="مستوى من الحصافة القانونية لا مثيل له. 'البراء' ليس مجرد مكتب محاماة، بل هو شريك استراتيجي في حماية سيادتنا." data-en="A level of legal jurisprudence beyond compare. Al-Baraa is not merely a law firm, but a strategic partner in protecting our sovereignty.">
+          مستوى من الحصافة القانونية لا مثيل له. 'البراء' ليس مجرد مكتب محاماة، بل هو شريك استراتيجي في حماية سيادتنا.
+        </blockquote>
+        <div class="t-footer">
+          <div class="t-rule"></div>
+          <span class="t-name" data-ar="سمو الأمير (...)، رئيس صندوق سيادي" data-en="H.H. Prince (...), Sovereign Wealth Fund Chair">سمو الأمير (...)، رئيس صندوق سيادي</span>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <svg class="t-quote-icon" width="60" height="60" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+        <blockquote class="t-text" data-ar="الدقة والتكتم هما ما يميزان هذا الصرح. لقد عهدنا إليهم بأكثر ملفاتنا حساسية وكانوا نعم الحماة." data-en="Precision and discretion are the hallmarks of this institution. We entrusted them with our most sensitive matters, and they were the ultimate guardians.">
+          الدقة والتكتم هما ما يميزان هذا الصرح. لقد عهدنا إليهم بأكثر ملفاتنا حساسية وكانوا نعم الحماة.
+        </blockquote>
+        <div class="t-footer">
+          <div class="t-rule"></div>
+          <span class="t-name" data-ar="الرئيس التنفيذي لشركة تقنية عالمية" data-en="CEO, Global Technology Enterprise">الرئيس التنفيذي لشركة تقنية عالمية</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ BRIEFINGS ═══════ -->
+<section id="briefings">
+  <div class="briefings-inner">
+    <div class="section-heading centered reveal">
+      <div class="sh-label-row">
+        <span class="sh-number">VI</span>
+        <div class="sh-rule"></div>
+        <span class="sh-label" data-ar="العقل الاستراتيجي" data-en="Strategic Intelligence">العقل الاستراتيجي</span>
+        <div class="sh-rule"></div>
+      </div>
+      <h2 class="sh-title light" data-ar="إحاطات قانونية استباقية" data-en="Proactive Intelligence & Precedents">إحاطات قانونية استباقية</h2>
+      <div class="sh-rule-bottom"></div>
+    </div>
+    <div class="briefings-grid">
+      <div class="briefing-card reveal">
+        <div class="briefing-date">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>May 2024</span>
+        </div>
+        <h3 class="briefing-title" data-ar="مستقبل الحصانات السيادية في النزاعات العابرة للحدود" data-en="The Future of Sovereign Immunities in Transcontinental Disputes">مستقبل الحصانات السيادية في النزاعات العابرة للحدود</h3>
+        <div class="briefing-read">
+          <div class="briefing-read-line"></div>
+          <span class="briefing-read-text">Read Analysis</span>
+        </div>
+      </div>
+      <div class="briefing-card reveal reveal-delay-1">
+        <div class="briefing-date">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>March 2024</span>
+        </div>
+        <h3 class="briefing-title" data-ar="تحولات التحكيم الدولي في ظل الذكاء الاصطناعي والقوانين الرقمية" data-en="Shifts in International Arbitration Amidst AI and Digital Jurisprudence">تحولات التحكيم الدولي في ظل الذكاء الاصطناعي والقوانين الرقمية</h3>
+        <div class="briefing-read">
+          <div class="briefing-read-line"></div>
+          <span class="briefing-read-text">Read Analysis</span>
+        </div>
+      </div>
+      <div class="briefing-card reveal reveal-delay-2">
+        <div class="briefing-date">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Jan 2024</span>
+        </div>
+        <h3 class="briefing-title" data-ar="إعادة تعريف حماية الأصول العائلية في الأنظمة الضريبية الجديدة" data-en="Redefining Dynastic Asset Protection in Emerging Tax Regimes">إعادة تعريف حماية الأصول العائلية في الأنظمة الضريبية الجديدة</h3>
+        <div class="briefing-read">
+          <div class="briefing-read-line"></div>
+          <span class="briefing-read-text">Read Analysis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="section-heading centered reveal">
+      <div class="sh-label-row">
+        <span class="sh-number">VII</span>
+        <div class="sh-rule"></div>
+        <span class="sh-label" data-ar="الإحاطة المعرفية" data-en="Strategic FAQ">الإحاطة المعرفية</span>
+        <div class="sh-rule"></div>
+      </div>
+      <h2 class="sh-title light" data-ar="تساؤلات النخبة" data-en="Inquiries of Intent">تساؤلات النخبة</h2>
+      <div class="sh-rule-bottom"></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">
+          <span class="faq-q" data-ar="كيف يتم ترتيب جلسة إحاطة استراتيجية خاصة؟" data-en="How can a private strategic briefing be arranged?">كيف يتم ترتيب جلسة إحاطة استراتيجية خاصة؟</span>
+          <div class="faq-toggle">+</div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            <p class="faq-a" data-ar="نستقبل طلبات الإحاطة الخاصة بسرية تامة عبر قنواتنا المشفرة. يتم تخصيص فريق من كبار الشركاء لدراسة الحالة قبل الجلسة الأولى." data-en="Private briefing requests are handled with absolute confidentiality through our encrypted channels. A team of senior partners is assigned to analyze the case prior to the initial session.">نستقبل طلبات الإحاطة الخاصة بسرية تامة عبر قنواتنا المشفرة. يتم تخصيص فريق من كبار الشركاء لدراسة الحالة قبل الجلسة الأولى.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">
+          <span class="faq-q" data-ar="هل تمتد ممارستكم القانونية لتشمل النزاعات العابرة للحدود؟" data-en="Does your practice extend to transcontinental disputes?">هل تمتد ممارستكم القانونية لتشمل النزاعات العابرة للحدود؟</span>
+          <div class="faq-toggle">+</div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            <p class="faq-a" data-ar="بالتأكيد. نمثل حكومات وكيانات كبرى في مراكز القرار الدولية بما في ذلك لندن، واشنطن، جنيف، ودبي." data-en="Certainly. We represent governments and major entities in global hubs including London, Washington, Geneva, and Dubai.">بالتأكيد. نمثل حكومات وكيانات كبرى في مراكز القرار الدولية بما في ذلك لندن، واشنطن، جنيف، ودبي.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">
+          <span class="faq-q" data-ar="ما هي معايير قبول القضايا والنزاعات الجديدة؟" data-en="What are the criteria for accepting new cases?">ما هي معايير قبول القضايا والنزاعات الجديدة؟</span>
+          <div class="faq-toggle">+</div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            <p class="faq-a" data-ar="نلتزم بمعايير اختيار صارمة تركز على القضايا ذات التعقيد القانوني العالي والأهمية الاستراتيجية لضمان التفوق لموكلينا." data-en="We adhere to strict selection criteria prioritizing cases of high legal complexity and strategic significance to ensure excellence for our clients.">نلتزم بمعايير اختيار صارمة تركز على القضايا ذات التعقيد القانوني العالي والأهمية الاستراتيجية لضمان التفوق لموكلينا.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-heading reveal">
+        <div class="sh-label-row">
+          <span class="sh-number">VIII</span>
+          <div class="sh-rule"></div>
+          <span class="sh-label" data-ar="كونسيرج قانوني" data-en="Elite Concierge">كونسيرج قانوني</span>
+          <div class="sh-rule"></div>
+        </div>
+        <h2 class="sh-title light" data-ar="تواصل مباشر مع الدائرة المقربة" data-en="Direct Access to the Inner Circle">تواصل مباشر مع الدائرة المقربة</h2>
+        <div class="sh-rule-bottom"></div>
+      </div>
+      <p class="contact-intro reveal reveal-delay-1" data-ar="نحن نقبل فقط القضايا التي تليق بمقام ممارستنا العالمية. طلبك سيُعامل ببروتوكولات دفاعية مشفرة وسرية مطلقة." data-en="We accept limited engagements that require strategic mastery. Your inquiry will be handled with sovereign-grade encryption.">
+        نحن نقبل فقط القضايا التي تليق بمقام ممارستنا العالمية. طلبك سيُعامل ببروتوكولات دفاعية مشفرة وسرية مطلقة.
+      </p>
+      <div class="contact-info-list reveal reveal-delay-2">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-ar="بروتوكول آمن" data-en="Secure Line">بروتوكول آمن</div>
+            <div class="contact-info-val" data-ar="الرد خلال ساعات من الإحاطة" data-en="Handled by Senior Partners Only">الرد خلال ساعات من الإحاطة</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-ar="البريد السيادي" data-en="Sovereign Mail">البريد السيادي</div>
+            <div class="contact-info-val">counsel@al-baraa.law</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-ar="المقر العالمي" data-en="Global HQ">المقر العالمي</div>
+            <div class="contact-info-val" data-ar="مركز دبي المالي العالمي، دبي" data-en="DIFC, Dubai, UAE">مركز دبي المالي العالمي، دبي</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-card reveal reveal-delay-1">
+      <div id="form-wrap">
+        <div class="form-row">
+          <div>
+            <label class="form-label" data-ar="الاسم الكامل" data-en="Formal Name">الاسم الكامل</label>
+            <input type="text" class="form-input" placeholder="..." required />
+          </div>
+          <div>
+            <label class="form-label" data-ar="رقم الاتصال" data-en="Secure Contact">رقم الاتصال</label>
+            <input type="text" class="form-input" placeholder="+" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-ar="البريد الإلكتروني" data-en="Confidential Email">البريد الإلكتروني</label>
+          <input type="email" class="form-input" placeholder="@" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-ar="ملخص الإحاطة الاستراتيجي" data-en="Strategic Brief">ملخص الإحاطة الاستراتيجي</label>
+          <textarea rows="4" class="form-input form-textarea"></textarea>
+        </div>
+        <button type="button" class="btn-submit" onclick="submitForm()" id="submit-btn">
+          <span data-ar="إرسال الإحاطة الاستراتيجية" data-en="Send Strategic Briefing">إرسال الإحاطة الاستراتيجية</span>
+        </button>
+      </div>
+      <div class="form-success" id="form-success">
+        <div class="form-success-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h3 class="form-success-title" data-ar="تم استلام الإحاطة" data-en="Briefing Received">تم استلام الإحاطة</h3>
+        <p class="form-success-sub" data-ar="سنتصل بك عبر القنوات الآمنة قريباً." data-en="We will reach out via secure channels shortly.">سنتصل بك عبر القنوات الآمنة قريباً.</p>
+        <button class="form-success-reset" onclick="resetForm()" data-ar="إرسال طلب آخر" data-en="Send another request">إرسال طلب آخر</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">AL-BARAA</div>
+        <p class="footer-brand-desc" data-ar="نحن لا نقدم الدفاع فحسب، بل نصمم الأطر القانونية التي تضمن السيادة والخلود لإرث عملائنا." data-en="Providing architectural legal defense that ensures sovereignty and immortality for our clients' legacies.">نحن لا نقدم الدفاع فحسب، بل نصمم الأطر القانونية التي تضمن السيادة والخلود لإرث عملائنا.</p>
+      </div>
+      <div>
+        <div class="footer-nav-title" data-ar="المؤسسة" data-en="Institution">المؤسسة</div>
+        <ul class="footer-nav-list">
+          <li><a href="#about" class="footer-nav-link" data-ar="إرثنا" data-en="Our Legacy">إرثنا</a></li>
+          <li><a href="#practice" class="footer-nav-link" data-ar="الممارسة" data-en="Jurisdictions">الممارسة</a></li>
+          <li><a href="#lawyers" class="footer-nav-link" data-ar="المحاميون" data-en="The Team">المحاميون</a></li>
+          <li><a href="#briefings" class="footer-nav-link" data-ar="الإحاطات" data-en="Briefings">الإحاطات</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-contact-title" data-ar="التواصل المباشر" data-en="Elite Concierge">التواصل المباشر</div>
+        <p class="footer-phone">+971 4 555 0000</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="year"></span> AL-BARAA LEGAL CHAMBERS.</p>
+      <div class="footer-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="footer-badge-text">Certifiably Sovereign</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /site -->
+
+<script>
+/* ═══════════════════════════════════════════════════
+   GOLD PARTICLE SYSTEM
+═══════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('gold-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function Particle() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.size = Math.random() * 1.8 + 0.4;
+    this.speedX = (Math.random() - 0.5) * 0.25;
+    this.speedY = -Math.random() * 0.3 - 0.05;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.life = 0;
+    this.maxLife = Math.random() * 400 + 200;
+  }
+  Particle.prototype.update = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.life++;
+    if (this.life > this.maxLife * 0.7) {
+      this.opacity -= 0.003;
+    }
+  };
+  Particle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(201,162,74,${Math.max(0, this.opacity)})`;
+    ctx.fill();
+  };
+
+  for (let i = 0; i < 80; i++) {
+    const p = new Particle();
+    p.life = Math.random() * p.maxLife;
+    particles.push(p);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach((p, i) => {
+      p.update();
+      p.draw();
+      if (p.opacity <= 0 || p.y < -10) {
+        particles[i] = new Particle();
+      }
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* ═══════════════════════════════════════════════════
+   LUXURY CURSOR
+═══════════════════════════════════════════════════ */
+(function() {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  (function lerp() {
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(lerp);
+  })();
+
+  const hoverEls = document.querySelectorAll('a, button, .faq-trigger, .practice-card, .lawyer-card, .briefing-card, .testimonial-card, .why-card');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+  });
+})();
+
+/* ═══════════════════════════════════════════════════
+   PRELOADER
+═══════════════════════════════════════════════════ */
+(function() {
+  const pre = document.getElementById('preloader');
+  const site = document.getElementById('site');
+  setTimeout(() => {
+    pre.classList.add('done');
+    site.classList.add('visible');
+  }, 2800);
+})();
+
+/* ═══════════════════════════════════════════════════
+   NAVBAR SCROLL
+═══════════════════════════════════════════════════ */
+(function() {
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+})();
+
+/* ═══════════════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════════════ */
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.add('open');
+});
+document.getElementById('close-menu').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.remove('open');
+});
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════ */
+(function() {
+  const els = document.querySelectorAll('.reveal, .reveal-left');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => obs.observe(el));
+})();
+
+/* ═══════════════════════════════════════════════════
+   LANGUAGE TOGGLE
+═══════════════════════════════════════════════════ */
+let currentLang = 'ar';
+document.getElementById('lang-toggle').addEventListener('click', toggleLang);
+
+function toggleLang() {
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  const isAr = currentLang === 'ar';
+  document.documentElement.setAttribute('lang', currentLang);
+  document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+  document.getElementById('lang-toggle').textContent = isAr ? 'English' : 'العربية';
+
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    const val = el.getAttribute('data-' + currentLang);
+    if (val) el.textContent = val;
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   FAQ TOGGLE
+═══════════════════════════════════════════════════ */
+function toggleFAQ(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════════════════ */
+function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  btn.querySelector('span').textContent = 'TRANSMITTING...';
+  setTimeout(() => {
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('form-success').classList.add('visible');
+  }, 1500);
+}
+function resetForm() {
+  document.getElementById('form-wrap').style.display = 'block';
+  document.getElementById('form-success').classList.remove('visible');
+  document.getElementById('submit-btn').querySelector('span').textContent =
+    currentLang === 'ar' ? 'إرسال الإحاطة الاستراتيجية' : 'Send Strategic Briefing';
+}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER YEAR
+═══════════════════════════════════════════════════ */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
